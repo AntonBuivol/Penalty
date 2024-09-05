@@ -6,6 +6,14 @@
 
 <h2>Penalties</h2>
 
+<form method="get" action="@Url.Action("Penalties", "Home")">
+    <div class="form-group">
+        <label for="searchCarNumber">Search by Car Number:</label>
+        <input type="text" name="searchCarNumber" class="form-control" placeholder="Enter Car Number" value="@Request.QueryString["searchCarNumber"]" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
 <p>
     @Html.ActionLink("Create New", "Penalty_Create")
 </p>

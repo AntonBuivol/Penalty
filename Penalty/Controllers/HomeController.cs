@@ -33,27 +33,39 @@ namespace Penalty.Controllers
 
         ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Penalties()
+        public ActionResult Penalties(string searchCarNumber = null)
         {
-            var currentUserId = User.Identity.GetUserId();
+            var penalties = db.Penalty.Include(p => p.User).AsQueryable();
 
-            // Если пользователь администратор, он видит все штрафы
-            if (User.IsInRole("Admin"))
+            // Если был введен номер машины для поиска
+            if (!string.IsNullOrEmpty(searchCarNumber))
             {
-                var penalties = db.Penalty.Include(p => p.User).ToList();
-                return View(penalties);
+                penalties = penalties.Where(p => p.CarNumber.Contains(searchCarNumber));
             }
-            else
+
+            // Если пользователь авторизован, проверяем его роль
+            if (User.Identity.IsAuthenticated)
             {
-                // Если обычный пользователь, то он видит только свои штрафы
-                var penalties = db.Penalty.Include(p => p.User)
-                                          .Where(p => p.UserId == currentUserId)
-                                          .ToList();
-                return View(penalties);
+                var currentUserId = User.Identity.GetUserId();
+
+                // Если пользователь - администратор, он видит все штрафы
+                if (User.IsInRole("Admin"))
+                {
+                    return View(penalties.ToList());
+                }
+                else
+                {
+                    // Если обычный пользователь, он видит только свои штрафы
+                    penalties = penalties.Where(p => p.UserId == currentUserId);
+                    return View(penalties.ToList());
+                }
             }
+
+            // Незарегистрированные пользователи видят все штрафы
+            return View(penalties.ToList());
         }
 
-        [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Penalty_Create()
         {
