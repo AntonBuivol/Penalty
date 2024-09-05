@@ -65,7 +65,7 @@ namespace Penalty.Controllers
             return View(penalties.ToList());
         }
 
-    [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Penalty_Create()
         {
@@ -82,6 +82,9 @@ namespace Penalty.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Вычисляем сумму штрафа
+                penalty.CalculateSumma();
+
                 var user = db.Users.Find(penalty.UserId);
                 penalty.User = user;
 
@@ -148,6 +151,9 @@ namespace Penalty.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Вычисляем сумму штрафа
+                penalty.CalculateSumma();
+
                 // Получаем пользователя по UserId и привязываем к штрафу
                 var user = db.Users.Find(penalty.UserId);
                 penalty.User = user;

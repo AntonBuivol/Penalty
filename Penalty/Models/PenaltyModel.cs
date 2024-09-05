@@ -23,7 +23,7 @@ namespace Penalty.Models
 
         [Required]
         [ForeignKey("User")]
-        public string UserId { get; set; }
+        public string UserId { get; set; } //Email
 
         [Required]
         public DateTime Date { get; set; }
@@ -31,9 +31,31 @@ namespace Penalty.Models
         [Required]
         public int Speed { get; set; }
 
-        [Required]
         public int Summa { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
+        public void CalculateSumma()
+        {
+            int speedOver = Speed;
+
+            if (speedOver <= 20)
+            {
+                Summa = 50;
+            }
+            else if (speedOver <= 40)
+            {
+                Summa = 100;
+            }
+            else if (speedOver <= 60)
+            {
+                Summa = 200;
+            }
+            else
+            {
+                Summa = 400;
+            }
+        }
+
     }
 }
