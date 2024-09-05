@@ -1,8 +1,10 @@
-﻿using Penalty.Models;
+﻿using Microsoft.AspNet.Identity;
+using Penalty.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,10 +35,25 @@ namespace Penalty.Controllers
 
         public ActionResult Penalties()
         {
-            var penalties = db.Penalty.Include(p => p.User).ToList();
-            return View(penalties);
+            var currentUserId = User.Identity.GetUserId();
+
+            // Если пользователь администратор, он видит все штрафы
+            if (User.IsInRole("Admin"))
+            {
+                var penalties = db.Penalty.Include(p => p.User).ToList();
+                return View(penalties);
+            }
+            else
+            {
+                // Если обычный пользователь, то он видит только свои штрафы
+                var penalties = db.Penalty.Include(p => p.User)
+                                          .Where(p => p.UserId == currentUserId)
+                                          .ToList();
+                return View(penalties);
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Penalty_Create()
         {
@@ -45,6 +62,8 @@ namespace Penalty.Controllers
             return View();
 
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Penalty_Create(PenaltyModel penalty)
@@ -88,34 +107,45 @@ namespace Penalty.Controllers
             return RedirectToAction("Penalties");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Penalty_Edit(int? id)
         {
-            var penalty = db.Penalty.Find(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var penalty = db.Penalty.Include(p => p.User).FirstOrDefault(p => p.Id == id);
             if (penalty == null)
             {
                 return HttpNotFound();
             }
 
-            // Get the list of users
+            // Получаем список пользователей
             var users = db.Users.ToList();
             ViewBag.UserId = new SelectList(users, "Id", "Email", penalty.UserId);
 
             return View(penalty);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Penalty_Edit")]
         [ValidateAntiForgeryToken]
         public ActionResult Penalty_EditConfirmed(PenaltyModel penalty)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(penalty).State = System.Data.Entity.EntityState.Modified;
+                // Получаем пользователя по UserId и привязываем к штрафу
+                var user = db.Users.Find(penalty.UserId);
+                penalty.User = user;
+
+                db.Entry(penalty).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            // If we got this far, something failed, redisplay form
+            // Если что-то пошло не так, снова отображаем форму
             var users = db.Users.ToList();
             ViewBag.UserId = new SelectList(users, "Id", "Email", penalty.UserId);
             return View(penalty);

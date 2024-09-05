@@ -39,6 +39,43 @@ namespace Penalty.Models
     {
         protected override void Seed(ApplicationDbContext context)
         {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            // Создаем роль Admin, если она еще не создана
+            if (!roleManager.RoleExists("Admin"))
+            {
+                var role = new IdentityRole("Admin");
+                roleManager.Create(role);
+            }
+
+            // Создаем роль User, если она еще не создана
+            if (!roleManager.RoleExists("User"))
+            {
+                var role = new IdentityRole("User");
+                roleManager.Create(role);
+            }
+
+            // Создаем пользователя с ролью Admin, если его еще нет
+            var user = userManager.FindByEmail("admin@example.com");
+            if (user == null)
+            {
+                var adminUser = new ApplicationUser
+                {
+                    UserName = "admin@example.com",
+                    Email = "admin@example.com"
+                };
+                string adminPassword = "Admin@123";
+
+                var result = userManager.Create(adminUser, adminPassword);
+
+                // Назначаем роль Admin
+                if (result.Succeeded)
+                {
+                    userManager.AddToRole(adminUser.Id, "Admin");
+                }
+            }
+
             // Вы можете здесь добавить начальные данные, если необходимо
             base.Seed(context);
         }
