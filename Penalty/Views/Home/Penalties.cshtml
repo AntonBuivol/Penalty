@@ -14,9 +14,13 @@
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
-<p>
-    @Html.ActionLink("Create New", "Penalty_Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Penalty_Create")
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -40,32 +44,41 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Speed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Summa)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Penalty_Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Penalty_Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Speed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summa)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Penalty_Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Penalty_Delete", new { id = item.Id })
+                </td>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Maksa", "Penalty_Delete", new { id = item.Id })
+                </td>
+            }
+            </tr>
+    }
 
 </table>

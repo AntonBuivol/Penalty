@@ -1,20 +1,268 @@
-﻿/* Set padding to keep content from hitting the edges */
-.body-content {
-    margin-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
+﻿body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+body {
+    background-color: #1e1e1e;
+    color: #dcdcdc;
+    line-height: 1.6;
+    margin-left: 200px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.navbar {
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+    .navbar a {
+        padding: 15px 25px;
+        text-decoration: none;
+        font-size: 1.1em;
+        color: #dcdcdc;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+        .navbar a:hover {
+            background-color: #444;
+        }
+
+    .navbar .brand {
+        font-size: 1.5em;
+        color: #f0f0f0;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+.container {
+    padding: 40px;
+}
+
+h2 {
+    color: #f0f0f0;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #2c2c2c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+    .table th, .table td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #444;
+    }
+
+    .table th {
+        background-color: #3d3d3d;
+        color: white;
+        font-weight: bold;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #292929;
+    }
+
+    .table tr:hover {
+        background-color: #444;
+    }
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #444;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn:hover {
+        background-color: #666;
+    }
+
+.btn-secondary {
+    background-color: #555;
+}
+
+    .btn-secondary:hover {
+        background-color: #777;
+    }
+
+form {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+    form label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #f0f0f0;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="date"],
+    form select,
+    form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #444;
+        border-radius: 5px;
+        font-size: 1em;
+        background-color: #333;
+        color: #dcdcdc;
+    }
+
+    form input[type="submit"] {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.2em;
+        background-color: #444;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        form input[type="submit"]:hover {
+            background-color: #666;
+        }
+
+.footer {
+    background-color: #333;
+    color: #dcdcdc;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: 40px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.8);
+}
+
+    .footer a {
+        color: #dcdcdc;
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: none;
+    }
+
+        .navbar a {
+            float: left;
+            padding: 15px;
+        }
+
+    .container {
+        margin-left: 0;
+        padding-top: 20px;
+    }
+
+    body {
+        margin-left: 0;
+    }
+}
+
+.user-info {
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+    .user-info p {
+        color: #f0f0f0;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .user-info .nav {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .user-info .nav li {
+            margin: 5px 0;
+        }
+
+        .user-info .nav a {
+            color: #dcdcdc;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .user-info .nav a:hover {
+                background-color: #444;
+            }
+
+
+.auth-links {
+    padding: 10px;
+    background-color: #2c2c2c;
+    margin-top: auto;
+}
+
+    .auth-links .nav {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .auth-links .nav li {
+            margin: 5px 0;
+        }
+
+        .auth-links .nav a {
+            color: #dcdcdc;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .auth-links .nav a:hover {
+                background-color: #444;
+            }

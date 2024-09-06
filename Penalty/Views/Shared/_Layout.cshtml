@@ -3,34 +3,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Trahvid</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Penalties", "Penalties", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-                 @Html.Partial("_LoginPartial")
-            </div>
+    <div class="navbar">
+        <div class="navbar-header">
+            <h2 class="brand">@Html.ActionLink("Manteeamet", "Index", "Home")</h2>
         </div>
-    </nav>
+        <ul class="nav">
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li>@Html.ActionLink("Penalty", "Penalties", "Home")</li>
+            <!-- Add more links as needed -->
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; Manteeamet</p>
         </footer>
     </div>
 

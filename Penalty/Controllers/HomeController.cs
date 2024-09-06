@@ -6,15 +6,31 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Penalty.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string searchCarNumber = null)
         {
-            return View();
+            var penalties = db.Penalty.Include(p => p.User).AsQueryable();
+
+            // Если был введен номер машины для поиска
+            if (!string.IsNullOrEmpty(searchCarNumber))
+            {
+                penalties = penalties.Where(p => p.CarNumber.Contains(searchCarNumber));
+            }
+
+            // Если пользователь авторизован, проверяем его роль
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUserId = User.Identity.GetUserId();
+            }
+
+            // Незарегистрированные пользователи видят все штрафы
+            return View(penalties.ToList());
         }
 
         public ActionResult About()
@@ -33,6 +49,7 @@ namespace Penalty.Controllers
 
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
         public ActionResult Penalties(string searchCarNumber = null)
         {
             var penalties = db.Penalty.Include(p => p.User).AsQueryable();
@@ -87,7 +104,7 @@ namespace Penalty.Controllers
 
                 var user = db.Users.Find(penalty.UserId);
                 penalty.User = user;
-
+                E_mail(penalty);
                 db.Penalty.Add(penalty);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -167,6 +184,29 @@ namespace Penalty.Controllers
             var users = db.Users.ToList();
             ViewBag.UserId = new SelectList(users, "Id", "Email", penalty.UserId);
             return View(penalty);
+        }
+
+
+        public void E_mail(PenaltyModel penalty)
+        {
+            var user = db.Users.Find(penalty.UserId);
+            penalty.User = user;
+            try
+            {
+                WebMail.SmtpServer = "smtp.gmail.com";
+                WebMail.SmtpPort = 587;
+                WebMail.EnableSsl = true;
+                WebMail.UserName = "nepridumalnazvaniepocht@gmail.com";
+                WebMail.Password = "rnlt mfvn ftjb usxu";
+                WebMail.From = "nepridumalnazvaniepocht@gmail.com";
+                WebMail.Send(user.Email, "Teil on uus Trahv!","Tere " + penalty.Name + " Auto number: " + penalty.CarNumber + " Trahv maksa: " 
+                    + penalty.Summa + "Є" + " Trahvi kuupäev: " + penalty.Date.Year + "." + penalty.Date.Month + "." + penalty.Date.Day);
+                ViewBag.Message = "Kiri on saatnud!";
+            }
+            catch
+            {
+                ViewBag.Message = "Mul on kahju! Ei saa kirja saada!!!";
+            }
         }
     }
 }
