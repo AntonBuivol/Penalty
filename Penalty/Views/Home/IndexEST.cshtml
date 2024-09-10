@@ -9,40 +9,45 @@
 
 <div class="row">
     <div class="col-md-12">
-        <img src="~/content/picENG.jpg" alt="Header Image" class="img-responsive" style="width: 100%; height: auto;">
+        <img src="~/content/picEST.jpg" alt="Header Image" class="img-responsive" style="width: 100%; height: auto;">
     </div>
 </div>
 
 <div class="container">
-    <!-- Car Number Search Form -->
     <div class="row">
         <div class="col-md-12">
             <form method="get" action="@Url.Action("Index", "Home")">
                 <div class="form-group">
-                    <label for="searchCarNumber">Search by Car Number:</label>
-                    <input type="text" name="searchCarNumber" class="form-control" placeholder="Enter Car Number" value="@Request.QueryString["searchCarNumber"]" />
+                    <label for="searchCarNumber">Otsi auto peale:</label>
+                    <input type="text" name="searchCarNumber" class="form-control" placeholder="Sisesta auto numbri" value="@Request.QueryString["searchCarNumber"]" />
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">Otsi...</button>
             </form>
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().User.Email)
+                        @* Translation: Email *@
+                        E-post
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CarNumber)
+                        @* Translation: Car Number *@
+                        Auto number
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Name)
+                        @* Translation: Name *@
+                        Nimi
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Date)
+                        @* Translation: Date *@
+                        Kuupäev
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Speed)
+                        @* Translation: Speed *@
+                        Kiirus
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Summa)
+                        @* Translation: Sum *@
+                        Summa
                     </th>
                     <th></th>
                 </tr>
@@ -54,7 +59,7 @@
                             @Html.DisplayFor(modelItem => item.User.Email)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CarNumber)
+                            @Html.DisplayFor(modelItem => item.CarNumber) 
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
@@ -70,7 +75,6 @@
                         </td>
                     </tr>
                 }
-
             </table>
         </div>
     </div>

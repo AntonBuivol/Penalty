@@ -266,3 +266,25 @@ form {
             .auth-links .nav a:hover {
                 background-color: #444;
             }
+
+.language-switch {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+    .language-switch a {
+        color: #dcdcdc;
+        text-decoration: none;
+        margin-left: 10px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .language-switch a:hover {
+            background-color: #666;
+        }

@@ -13,24 +13,45 @@ namespace Penalty.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult ChangeLanguage(string lang)
+        {
+            Session["lang"] = lang;
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Index(string searchCarNumber = null)
         {
+            // Retrieve the penalties and include the related user
             var penalties = db.Penalty.Include(p => p.User).AsQueryable();
 
-            // Если был введен номер машины для поиска
+            // Если был введен номер машины для поиска (If the car number is entered for search)
             if (!string.IsNullOrEmpty(searchCarNumber))
             {
                 penalties = penalties.Where(p => p.CarNumber.Contains(searchCarNumber));
             }
 
-            // Если пользователь авторизован, проверяем его роль
+            // Если пользователь авторизован (If the user is authenticated), проверяем его роль (we check their role)
             if (User.Identity.IsAuthenticated)
             {
                 var currentUserId = User.Identity.GetUserId();
+                // You could further filter penalties based on user if required
             }
 
-            // Незарегистрированные пользователи видят все штрафы
-            return View(penalties.ToList());
+            // Retrieve the language from the session
+            var lang = Session["lang"] as string;
+
+            // Set the layout dynamically based on the language
+            if (lang == "et")
+            {
+                ViewBag.Layout = "~/Views/Shared/_LayoutEST.cshtml";
+                return View("IndexEST", penalties.ToList());  // Load the Estonian version of the Index view
+            }
+            else
+            {
+                ViewBag.Layout = "~/Views/Shared/_Layout.cshtml";  // Default layout
+                return View("Index", penalties.ToList());  // Load the default Index view
+            }
         }
 
         public ActionResult About()
