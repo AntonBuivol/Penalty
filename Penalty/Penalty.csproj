@@ -260,9 +260,12 @@
     <Content Include="Views\Home\Penalty_Edit.cshtml" />
     <Content Include="Views\Shared\_LayoutEST.cshtml" />
     <Content Include="Views\Home\IndexEST.cshtml" />
+    <Content Include="Views\Account\RegisterEST.cshtml" />
+    <Content Include="Views\Account\LoginEST.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

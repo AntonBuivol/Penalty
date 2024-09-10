@@ -22,7 +22,6 @@ namespace Penalty.Controllers
 
         public ActionResult Index(string searchCarNumber = null)
         {
-            // Retrieve the penalties and include the related user
             var penalties = db.Penalty.Include(p => p.User).AsQueryable();
 
             // Если был введен номер машины для поиска (If the car number is entered for search)
@@ -35,37 +34,20 @@ namespace Penalty.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var currentUserId = User.Identity.GetUserId();
-                // You could further filter penalties based on user if required
             }
 
-            // Retrieve the language from the session
             var lang = Session["lang"] as string;
 
-            // Set the layout dynamically based on the language
             if (lang == "et")
             {
                 ViewBag.Layout = "~/Views/Shared/_LayoutEST.cshtml";
-                return View("IndexEST", penalties.ToList());  // Load the Estonian version of the Index view
+                return View("IndexEST", penalties.ToList());  
             }
             else
             {
-                ViewBag.Layout = "~/Views/Shared/_Layout.cshtml";  // Default layout
-                return View("Index", penalties.ToList());  // Load the default Index view
+                ViewBag.Layout = "~/Views/Shared/_Layout.cshtml";  
+                return View("Index", penalties.ToList()); 
             }
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         ApplicationDbContext db = new ApplicationDbContext();

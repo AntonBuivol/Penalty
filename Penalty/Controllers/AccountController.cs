@@ -15,6 +15,16 @@ namespace Penalty.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
+
+        public ActionResult ChangeLanguage(string lang)
+        {
+            Session["lang"] = lang;
+            var redirectUrl = Request.UrlReferrer?.AbsolutePath ?? Url.Action("Index", "Home");
+            return Redirect(redirectUrl);
+        }
+
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -58,7 +68,9 @@ namespace Penalty.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            var lang = Session["lang"] as string;
+            string viewName = lang == "et" ? "LoginEST" : "Login";
+            return View(viewName);
         }
 
         //
@@ -139,7 +151,9 @@ namespace Penalty.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var lang = Session["lang"] as string;
+            string viewName = lang == "et" ? "RegisterEST" : "Register";
+            return View(viewName);
         }
 
         //
