@@ -73,72 +73,74 @@
         }
     </div>
 }
+@if (!User.IsInRole("Admin"))
+{
+    <h3>Maksa</h3>
+    <div>
+        <h4>PenaltyModel</h4>
+        <hr />
 
-<h3>Maksa</h3>
-<div>
-    <h4>PenaltyModel</h4>
-    <hr />
+        @Html.TextBox("CardNumber", "", new { @class = "form-control", placeholder = "Kirjuta Card Number", required = "required" })
+        @Html.TextBox("CardNumber", "", new { @class = "form-control", placeholder = "Kirjuta CVV", required = "required" })
 
-    @Html.TextBox("CardNumber", "", new { @class = "form-control", placeholder = "Kirjuta Card Number", required = "required" })
-    @Html.TextBox("CardNumber", "", new { @class = "form-control", placeholder = "Kirjuta CVV", required = "required" })
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </dt>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CarNumber)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CarNumber)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CarNumber)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CarNumber)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Speed)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Speed)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Speed)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Speed)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Summa)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Summa)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Summa)
+            </dd>
+        </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.Summa)
-        </dd>
-    </dl>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Maksa" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Maksa" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+}

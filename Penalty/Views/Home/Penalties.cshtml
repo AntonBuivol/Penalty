@@ -72,7 +72,7 @@
                     @Html.ActionLink("Delete", "Penalty_Delete", new { id = item.Id })
                 </td>
             }
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
             {
                 <td>
                     @Html.ActionLink("Maksa", "Penalty_Delete", new { id = item.Id })

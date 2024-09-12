@@ -126,9 +126,12 @@ namespace Penalty.Controllers
             {
                 return HttpNotFound();
             }
+            IsDelete = true;
+            E_mail(penalty);
+            IsDelete = false;
             return View(penalty);
         }
-
+        bool IsDelete = false;
         [HttpPost, ActionName("Penalty_Delete")]
         public ActionResult Penalty_DeleteConfirmed(int id)
         {
@@ -139,6 +142,7 @@ namespace Penalty.Controllers
             }
             db.Penalty.Remove(penalty);
             db.SaveChanges();
+            
             return RedirectToAction("Penalties");
         }
 
@@ -202,6 +206,11 @@ namespace Penalty.Controllers
                 WebMail.UserName = "nepridumalnazvaniepocht@gmail.com";
                 WebMail.Password = "rnlt mfvn ftjb usxu";
                 WebMail.From = "nepridumalnazvaniepocht@gmail.com";
+                if(IsDelete)
+                {
+                    WebMail.Send(user.Email, "Teie trahv on tasutud!", "Tere, teatame teile, et teie trahv on edukalt tasutud.");
+                    ViewBag.Message = "Kiri on saatnud!";
+                }
                 WebMail.Send(user.Email, "Teil on uus Trahv!","Tere " + penalty.Name + " Auto number: " + penalty.CarNumber + " Trahv maksa: " 
                     + penalty.Summa + "Є" + " Trahvi kuupäev: " + penalty.Date.Year + "." + penalty.Date.Month + "." + penalty.Date.Day);
                 ViewBag.Message = "Kiri on saatnud!";
